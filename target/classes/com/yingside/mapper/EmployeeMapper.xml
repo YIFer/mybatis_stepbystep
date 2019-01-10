@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingside.mapper.EmployeeMapper">
+
+    <cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024"></cache>
+
+    <sql id="empBaseColumn">
+        t_emp.emp_id,
+        t_emp.emp_name,
+        t_emp.emp_tel,
+        t_emp.emp_education,
+        t_emp.emp_birthday,
+        t_emp.fk_dept_id
+    </sql>
+
+    <sql id="deptBaseColumn">
+        t_dept.dept_id,
+        t_dept.dept_name,
+        t_dept.dept_info,
+        t_dept.dept_createDate
+    </sql>
+
+    <!--<resultMap id="employeeMap" type="employee">-->
+        <!--<id column="emp_id" property="empId"></id>-->
+        <!--<result column="emp_name" property="empName"></result>-->
+        <!--<result column="emp_tel" property="empTel"></result>-->
+        <!--<result column="emp_education" property="empEducation"></result>-->
+        <!--<result column="emp_birthday" property="empBirthday"></result>-->
+        <!--<association property="dept" javaType="Dept">-->
+            <!--<id column="dept_id" property="deptId"></id>-->
+            <!--<result column="dept_name" property="deptName"></result>-->
+            <!--<result column="dept_info" property="deptInfo"></result>-->
+            <!--<result column="dept_createDate" property="deptCreateDate"></result>-->
+        <!--</association>-->
+    <!--</resultMap>-->
+
+    <!--<select id="getEmployeeById" resultMap="employeeMap" parameterType="int">-->
+      <!--select-->
+      <!--<include refid="empBaseColumn"></include>,<include refid="deptBaseColumn"></include>-->
+      <!--from t_emp join t_dept on t_emp.fk_dept_id = t_dept.dept_id-->
+      <!--where t_emp.emp_id=#{id}-->
+    <!--</select>-->
+
+    <!-- 嵌套查询,先查询出员工相关信息,然后再根据员工信息中的外键id查询部门信息,最后再组合成Employee对象 -->
+    <resultMap id="employeeMap" type="employee">
+        <id column="emp_id" property="empId"></id>
+        <result column="emp_name" property="empName"></result>
+        <result column="emp_tel" property="empTel"></result>
+        <result column="emp_education" property="empEducation"></result>
+        <result column="emp_birthday" property="empBirthday"></result>
+        <association property="dept" column="fk_dept_id" select="getDeptById" />
+    </resultMap>
+
+    <select id="getDeptById" resultType="dept" parameterType="int">
+        select <include refid="deptBaseColumn"></include>
+        from t_dept where dept_id=#{id}
+    </select>
+
+    <select id="getEmployeeById" resultMap="employeeMap" parameterType="int">
+        select
+        <include refid="empBaseColumn"></include>
+        from t_emp where emp_id=#{id}
+    </select>
+</mapper>

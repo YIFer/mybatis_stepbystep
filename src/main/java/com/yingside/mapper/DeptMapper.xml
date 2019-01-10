@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yingside.mapper.DeptMapper">
+
+    <cache/>
+
+    <sql id="empBaseColumn">
+        t_emp.emp_id,
+        t_emp.emp_name,
+        t_emp.emp_tel,
+        t_emp.emp_education,
+        t_emp.emp_birthday,
+        t_emp.fk_dept_id
+    </sql>
+
+    <sql id="deptBaseColumn">
+        t_dept.dept_id,
+        t_dept.dept_name,
+        t_dept.dept_info,
+        t_dept.dept_createDate
+    </sql>
+
+    <!--<resultMap id="deptMap" type="dept">-->
+        <!--<id column="dept_id" property="deptId"></id>-->
+        <!--<result column="dept_name" property="deptName"></result>-->
+        <!--<result column="dept_info" property="deptInfo"></result>-->
+        <!--<result column="dept_createDate" property="deptCreateDate"></result>-->
+        <!--&lt;!&ndash;-->
+            <!--property:实体类中定义的属性名-->
+            <!--ofType：指定映射到集合中的全类名(包名+类名),我们这里是在全局设置中做了别名处理的typeAliases-->
+        <!--&ndash;&gt;-->
+        <!--<collection property="employeeList" ofType="employee">-->
+            <!--<id column="emp_id" property="empId"></id>-->
+            <!--<result column="emp_name" property="empName"></result>-->
+            <!--<result column="emp_tel" property="empTel"></result>-->
+            <!--<result column="emp_education" property="empEducation"></result>-->
+            <!--<result column="emp_birthday" property="empBirthday"></result>-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
+    <!--<select id="getDeptList" resultMap="deptMap">-->
+        <!--SELECT-->
+        <!--t_dept.dept_id,-->
+        <!--t_dept.dept_name,-->
+        <!--t_dept.dept_info,-->
+        <!--t_dept.dept_createDate,-->
+        <!--t_emp.emp_id,-->
+        <!--t_emp.emp_name,-->
+        <!--t_emp.emp_tel,-->
+        <!--t_emp.emp_education,-->
+        <!--t_emp.emp_birthday,-->
+        <!--t_emp.fk_dept_id-->
+        <!--FROM-->
+        <!--t_dept-->
+        <!--JOIN t_emp-->
+        <!--ON t_emp.fk_dept_id = t_dept.dept_id-->
+    <!--</select>-->
+
+    <resultMap id="deptMap" type="dept">
+        <id column="dept_id" property="deptId"></id>
+        <result column="dept_name" property="deptName"></result>
+        <result column="dept_info" property="deptInfo"></result>
+        <result column="dept_createDate" property="deptCreateDate"></result>
+        <collection property="employeeList" ofType="employee" select="getEmployeeList" column="dept_id"></collection>
+    </resultMap>
+    <!--根据部门id查询所有员工信息,返回员工对象-->
+    <select id="getEmployeeList" resultType="employee" parameterType="int">
+        select * from t_emp where fk_dept_id=#{id}
+    </select>
+    <!--查询部门所有信息-->
+    <select id="getDeptList" resultMap="deptMap">
+        select * from t_dept
+    </select>
+
+
+    <!-- 根据 id 更新 t_dept 表的数据 -->
+    <update id="updateDeptByIdSelective" parameterType="dept">
+        update t_dept
+        <trim prefix="set" suffixOverrides=",">
+            <if test="deptName != null">
+                dept_name=#{deptName},
+            </if>
+            <if test="deptInfo != null">
+                dept_info=#{deptInfo},
+            </if>
+            <if test="deptCreateDate != null">
+                dept_createDate=#{deptCreateDate}
+            </if>
+        </trim>
+        where dept_id=#{deptId}
+    </update>
+
+</mapper>
