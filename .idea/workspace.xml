@@ -192,14 +192,29 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="mybatisdemo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mybatisdemo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="mybatisdemo" type="b2602c69:ProjectViewProjectNode" />
+              <item name="mybatisdemo" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547099400901" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1547106119019" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/Change SQL Dialect" value="GenericSQL&#10;MySQL" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -384,7 +399,7 @@
       <workItem from="1546909833981" duration="4261000" />
       <workItem from="1546995795395" duration="2587000" />
       <workItem from="1547004708774" duration="1695000" />
-      <workItem from="1547082408369" duration="1565000" />
+      <workItem from="1547082408369" duration="1580000" />
     </task>
     <servers />
   </component>
@@ -421,7 +436,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="93232000" />
+    <option name="totallyTimeSpent" value="93247000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
